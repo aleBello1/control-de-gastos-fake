@@ -124,9 +124,9 @@ class ExpenseIntegrationTest {
 
     }
 
-    // To test the endpoint update when we use an inexisting id 
+    // To test the endpoint update when we use an unexisting id
     @Test
-    void putUpdateInexistingIdIntegrationTest()  {
+    void putUpdateUnexistingIdIntegrationTest()  {
 
         // Given
         String idToUpdate = "999999";
@@ -173,9 +173,9 @@ class ExpenseIntegrationTest {
         
     }
 
-    // To test the endpoint delete when we use an inexisting id 
+    // To test the endpoint delete when we use an unexisting id
     @Test
-    void deleteInexistingIdIntegrationTest() {
+    void deleteUnexistingIdIntegrationTest() {
     
         // Given
         String idToDelete = "999999";

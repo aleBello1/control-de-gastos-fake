@@ -98,9 +98,9 @@ class ExpenseServiceImpTest {
         verify(repository).save(any(Expense.class));
     }
 
-    // To test the method update when we use an inexisting id
+    // To test the method update when we use an unexisting id
     @Test
-    void updateInexistingIdTest() {
+    void updateUnexistingIdTest() {
 
         String idToUpdate = "0000006";
         Expense expenseToUpdate = new Expense(null, "HBO Max", 500, "Suscripciones", LocalDateTime.now());
@@ -141,9 +141,9 @@ class ExpenseServiceImpTest {
         verify(repository).deleteById(argThat(new CustomCondition(ExpenseData.idsValid, true)));
     }
 
-    // To test the method delete when we use an inexisting id
+    // To test the method delete when we use an unexisting id
     @Test
-    void deleteInexistingIdTest() {
+    void deleteUnexistingIdTest() {
 
         // Given
         String idToDelete = "0000009";

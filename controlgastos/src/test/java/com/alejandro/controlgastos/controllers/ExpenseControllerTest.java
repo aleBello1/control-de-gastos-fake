@@ -29,6 +29,7 @@ import com.alejandro.controlgastos.entities.Expense;
 import com.alejandro.controlgastos.services.ExpenseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 @WebMvcTest(ExpenseController.class)
 @Import(TestConfig.class)
 class ExpenseControllerTest {
@@ -36,13 +37,16 @@ class ExpenseControllerTest {
     // To inject the dependency that allows for mocking HTTP requests
     @Autowired
     private MockMvc mockMvc;
- 
+
     // To inject the dependency that represents the service to mock
     @Autowired
-    private ExpenseService service; 
+    private ExpenseService service;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    private static final String BASE_URL = "/api/expenses";
+
 
     // To test the endpoint getExpenses
     @Test
@@ -52,7 +56,7 @@ class ExpenseControllerTest {
         when(service.findAll()).thenReturn(ExpenseData.createExpenses001());
 
         // When
-        MvcResult result = mockMvc.perform(get("/api/expenses"))
+        MvcResult result = mockMvc.perform(get(BASE_URL))
 
         // Then
         .andExpect(status().isOk())
@@ -90,7 +94,7 @@ class ExpenseControllerTest {
         when(service.save(any(Expense.class))).thenAnswer(invocation -> invocation.getArgument(0));
         
         // when
-        MvcResult result = mockMvc.perform(post("/api/expenses")
+        MvcResult result = mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(expenseInsert)))
 
@@ -204,7 +208,7 @@ class ExpenseControllerTest {
         verify(service).deleteById(argThat(new CustomCondition(ExpenseData.idsValid, true)));
     }
 
-    // To test the endpoint delete when we use an inexisting id 
+    // To test the endpoint delete when we use an unexisting id
     @Test
     void deleteInexistingIdTest() throws Exception {
     
@@ -228,7 +232,7 @@ class ExpenseControllerTest {
     void deleteAllTest() throws Exception {
     
         // When
-        mockMvc.perform(delete("/api/expenses"))
+        mockMvc.perform(delete(BASE_URL))
 
         // then
             .andExpect(status().isOk())
@@ -246,7 +250,7 @@ class ExpenseControllerTest {
         Expense expenseInsert = new Expense(null, "", -26, "", LocalDateTime.of(2050, 4, 28, 18, 15));
         
         // when
-        mockMvc.perform(post("/api/expenses")
+        mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(expenseInsert)))
         
