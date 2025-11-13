@@ -17,7 +17,7 @@ public class ExpenseServiceImp implements ExpenseService {
     @Autowired
     private ExpenseRepository repository;
 
-    // To list all of expenses (records) in the collection 'expenses'.
+    // To list all expenses (records) in the collection 'expenses'.
     @Override
     @Transactional(readOnly = true)
     public List<Expense> findAll() {
@@ -46,10 +46,10 @@ public class ExpenseServiceImp implements ExpenseService {
             expenseDb.setName(expense.getName());
             expenseDb.setAmount(expense.getAmount());
             expenseDb.setCategory(expense.getCategory());
-            // The attribute: createdAt doesnt update.
+            // The attribute: createdAt doesn't update.
             // The attribute: updatedAt is updated in the 'expenseEvent' file.
 
-            return Optional.ofNullable(repository.save(expenseDb));
+            return Optional.of(repository.save(expenseDb));
         }
 
         return optionalExpense;

@@ -10,8 +10,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
-// To specific the name of collection in mongoDb
-// In mongoDb the name of this collection is 'expenses' but in this project 
+// In mongoDb the name of this collection is 'expenses' but in this project
 // the name of this class is 'Expense'
 @Document(collection = "expenses")
 public class Expense {

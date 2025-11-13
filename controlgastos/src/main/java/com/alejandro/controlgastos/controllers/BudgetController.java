@@ -20,7 +20,7 @@ import com.alejandro.controlgastos.services.BudgetService;
 
 import jakarta.validation.Valid;
 
-@RestController // To create a api rest.
+@RestController // To create an api rest.
 @RequestMapping("/api/budgets") // To create a base path.
 public class BudgetController {
 
@@ -48,7 +48,7 @@ public class BudgetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newBudget);
     }
 
-    // To create a endpoint that allows deleting all of budgets (the only one)
+    // To create an endpoint that allows deleting all budgets (the only one)
     // and return response ok
     @DeleteMapping()
     public ResponseEntity<?> deleteAllOfBudgets() {
