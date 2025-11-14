@@ -2,6 +2,7 @@ package com.alejandro.controlgastos.entities;
 
 import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -19,18 +20,19 @@ public class Expense {
     @Id
     private String id;
 
-    @NotBlank // To obligate to this attribute not to empty or blank values.
+    @NotBlank(message = "{NotBlank.Expense.name}") // To obligate to this attribute not to empty or blank values.
     private String name;
 
     // To obligate this attribute to contain values ​​equal to or greater than one
-    @Min(1)
+    @Min(value = 1, message = "{Min.Expense.amount}")
     private int amount;
 
-    @NotBlank // To obligate to this attribute not to empty or blank values.
+    @NotBlank(message = "{NotBlank.Expense.category}") // To obligate to this attribute not to empty or blank values.
     private String category;
 
     @Field("created_at") // To specific the name of this attribute in the db.
-    @PastOrPresent // To obligate the date to be before today or today
+    @PastOrPresent(message = "{PastOrPresent.Expense.createdAt}") // To obligate the date to be before today or today
+    @NotNull(message = "{NotNull.Expense.createdAt}")
     private LocalDateTime createdAt;
 
     @Field("updated_at") // To specific the name of this attribute in the db.

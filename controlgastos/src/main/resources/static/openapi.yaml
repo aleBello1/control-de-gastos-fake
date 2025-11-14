@@ -95,7 +95,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Expense'
+              $ref: '#/components/schemas/ExpenseInput'
       responses:
         '201':
           description: Expense successfully created
@@ -108,7 +108,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationErrors'
+                $ref: '#/components/schemas/ExpenseValidationErrors'
 
   /api/expenses/{id}:
     put:
@@ -128,7 +128,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Expense'
+              $ref: '#/components/schemas/ExpenseUpdate'
       responses:
         '201':
           description: Expense updated successfully
@@ -141,7 +141,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidationErrors'
+                $ref: '#/components/schemas/ExpenseValidationErrors'
         '404':
           description: Expense not found
 
@@ -188,6 +188,14 @@ components:
           format: double
           example: 4500.00
 
+    BudgetValidationErrors:
+      type: object
+      description: Contains validation errors for invalid fields.
+      additionalProperties:
+        type: string
+      example:
+        amount: "The field amount must be equal to or greater than 500"
+
     Expense:
       type: object
       properties:
@@ -204,15 +212,51 @@ components:
         category:
           type: string
           example: "Food"
-        date:
-          type: string
-          format: date
-          example: "2025-01-10"
+        createdAt:
+          type: datetime
+          example: "2025-11-14T10:24:03.465"
+        updateAt:
+          type: datetime
+          example: "2025-11-15T19:40:01.210"
 
-    BudgetValidationErrors:
+    ExpenseUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "HBO MAX"
+        amount:
+          type: number
+          format: double
+          example: 150.25
+        category:
+          type: string
+          example: "Subscriptions"
+
+    ExpenseInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Grocery Shopping"
+        amount:
+          type: number
+          format: double
+          example: 350.75
+        category:
+          type: string
+          example: "Food"
+        createdAt:
+          type: datetime
+          example: "2025-11-14T10:24:03.465"
+
+    ExpenseValidationErrors:
       type: object
       description: Contains validation errors for invalid fields.
       additionalProperties:
         type: string
       example:
-        amount: "The field amount must be equal to or greater than 500"
+        amount: "The amount field must be equal to or greater than 1"
+        name: "The name field must not be null, empty, or contain only whitespace"
+        category: "The category field must not be null, empty, or contain only whitespace"
+        createdAt: "The createdAt field is required"
