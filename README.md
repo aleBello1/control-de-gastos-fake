@@ -13,6 +13,7 @@ Control de Gastos es un backend construido con **Spring Boot** y **MongoDB**, di
 - **Postman**: Para simular ser un cliente que hace peticiones al servidor y probar los endpoints.
 - **JUnit**: Framework de pruebas unitarias utilizado para verificar el correcto funcionamiento de los métodos.
 - **Mockito**: Framework de mocking usado para simular dependencias y facilitar las pruebas unitarias en aislamiento.
+- **Swagger / OpenAPI**: Herramienta para documentar y probar los endpoints de la API de forma interactiva.
 
 ## Características
 
@@ -75,6 +76,11 @@ Se emplean las siguientes validaciones:
 Puedes ver una demo del proyecto en el siguiente enlace: [Control de Gastos](https://serene-frangollo-9ddb20.netlify.app/).
 
 **Nota:** La demo del proyecto es únicamente demostrativa. Esta no está enlazada con el backend.
+
+## Futuras mejoras
+
+- Despliegue de la aplicacion en AWS
+- Despligue automatico usando jenkins
 
 ---
 
