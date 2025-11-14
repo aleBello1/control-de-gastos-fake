@@ -256,10 +256,10 @@ class ExpenseControllerTest {
         
         // then
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.name").value("El campo name must not be blank"))
-            .andExpect(jsonPath("$.amount").value("El campo amount must be greater than or equal to 1"))
-            .andExpect(jsonPath("$.category").value("El campo category must not be blank"))
-            .andExpect(jsonPath("$.createdAt").value("El campo createdAt must be a date in the past or in the present"))
+            .andExpect(jsonPath("$.name").value("The field name must not be blank"))
+            .andExpect(jsonPath("$.amount").value("The field amount must be greater than or equal to 1"))
+            .andExpect(jsonPath("$.category").value("The field category must not be blank"))
+            .andExpect(jsonPath("$.createdAt").value("The field createdAt must be a date in the past or in the present"))
             ;
 
         verify(service, never()).save(any(Expense.class));

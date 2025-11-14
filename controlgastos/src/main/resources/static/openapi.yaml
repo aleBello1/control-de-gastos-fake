@@ -1,0 +1,218 @@
+openapi: 3.0.3
+
+info:
+  title: Expense tracker API
+  description: API for managing budgets and expenses.
+  version: v1.0.0
+  contact:
+    name: Alejandro Granados
+    email: alejandro.magb@gmail.com
+    url: https://github.com/aledelorbe
+
+servers:
+  - url: http://localhost:8081
+
+tags:
+  - name: Budgets
+    description: Endpoints related to budget management.
+  - name: Expenses
+    description: Endpoints related to expense management.
+
+paths:
+  /api/budgets:
+    get:
+      tags:
+        - Budgets
+      summary: Get the budget
+      description: Returns the budget.
+      responses:
+        '200':
+          description: Show the budget
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Budget'
+
+    post:
+      tags:
+        - Budgets
+      summary: Create a budget
+      description: Creates a new budget if the sent data is valid.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BudgetInput'
+      responses:
+        '201':
+          description: Budget successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        '400':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetValidationErrors'
+
+    delete:
+      tags:
+        - Budgets
+      summary: Delete the budget
+      description: Removes the budget record
+      responses:
+        '200':
+          description: The budget deleted successfully
+
+  /api/expenses:
+    get:
+      tags:
+        - Expenses
+      summary: Get all expenses
+      description: Returns a list of all stored expenses.
+      responses:
+        '200':
+          description: List of expenses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Expense'
+
+    post:
+      tags:
+        - Expenses
+      summary: Create an expense
+      description: Creates a new expense if the sent data is valid.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+      responses:
+        '201':
+          description: Expense successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrors'
+
+  /api/expenses/{id}:
+    put:
+      tags:
+        - Expenses
+      summary: Update an expense
+      description: Updates all values of an existing expense by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the expense to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+      responses:
+        '201':
+          description: Expense updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrors'
+        '404':
+          description: Expense not found
+
+    delete:
+      tags:
+        - Expenses
+      summary: Delete an expense
+      description: Deletes a specific expense using its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the expense to delete
+      responses:
+        '200':
+          description: Expense deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '404':
+          description: Expense not found
+
+components:
+  schemas:
+    Budget:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65ab12df703e4cbb23a45ed9"
+        amount:
+          type: number
+          format: double
+          example: 4500.00
+
+    BudgetInput:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+          example: 4500.00
+
+    Expense:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "65ab12df703e4cbb23a45ed9"
+        name:
+          type: string
+          example: "Grocery Shopping"
+        amount:
+          type: number
+          format: double
+          example: 350.75
+        category:
+          type: string
+          example: "Food"
+        date:
+          type: string
+          format: date
+          example: "2025-01-10"
+
+    BudgetValidationErrors:
+      type: object
+      description: Contains validation errors for invalid fields.
+      additionalProperties:
+        type: string
+      example:
+        amount: "The field amount must be equal to or greater than 500"

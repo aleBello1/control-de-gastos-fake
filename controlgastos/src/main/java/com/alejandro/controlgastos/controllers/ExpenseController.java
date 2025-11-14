@@ -95,7 +95,7 @@ public class ExpenseController {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(e -> {
-            errors.put(e.getField(), "El campo " + e.getField() + " " + e.getDefaultMessage());
+            errors.put(e.getField(), e.getDefaultMessage());
         });
 
         return ResponseEntity.badRequest().body(errors);

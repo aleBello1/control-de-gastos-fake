@@ -131,7 +131,7 @@ class BudgetControllerTest {
         
         // then
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.amount").value("El campo amount must be greater than or equal to 500"))
+            .andExpect(jsonPath("$.amount").value("The field amount must be greater than or equal to 500"))
             ;
 
         verify(service, never()).save(any(Budget.class));

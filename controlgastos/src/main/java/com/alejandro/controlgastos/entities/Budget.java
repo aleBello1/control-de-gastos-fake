@@ -16,7 +16,7 @@ public class Budget {
     
     // To obligate this attribute to contain values ​​equal to or greater than five hundred
     // This values is arbitrary.
-    @Min(500) 
+    @Min(value = 500, message = "{Min.Budget.amount}")
     private int amount;
 
     public Budget() {
