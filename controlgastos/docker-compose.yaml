@@ -1,0 +1,35 @@
+services:
+  expense-tracker:
+    container_name: expense-tracker
+    ports:
+      - "7000:7000"
+    networks:
+      - expense-network
+    image: expense-image:v3
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    env_file: .\.env
+    depends_on:
+      - expense-tracker-db
+
+  expense-tracker-db:
+    container_name: expense-tracker-db
+    ports:
+      - "7001:27017"
+    networks:
+      - expense-network
+    image: mongodb/mongodb-community-server:7.0-ubi8
+    volumes:
+      - expense-volume:/data/db
+
+networks:
+  expense-network:
+    name: expense-tracker-network
+    driver: bridge
+
+volumes:
+  expense-volume:
+    name: expense-tracker-volume
+
+

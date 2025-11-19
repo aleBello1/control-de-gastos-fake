@@ -48,6 +48,7 @@ Se emplean las siguientes validaciones:
 ### Patrones de diseño
 
 - Se emplea el patrón de diseño arquitectónico conocido como **MVC**, para separar en diferentes capas el código del proyecto.
+- El proyecto emplea **DTOs** para separar los datos expuestos en las solicitudes y respuestas del modelo de dominio, mejorando la organización y el control de la información intercambiada.
 
 ### Eventos del ciclo de vida para los objetos de las clases entity
 

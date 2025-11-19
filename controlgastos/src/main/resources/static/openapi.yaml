@@ -150,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExpenseValidationErrors'
+                $ref: '#/components/schemas/ExpenseValidationUpdateErrors'
         '404':
           description: Expense not found
 
@@ -198,10 +198,8 @@ components:
           example: 4500.00
 
     BudgetValidationErrors:
-      type: object
-      description: Contains validation errors for invalid fields.
-      additionalProperties:
-        type: string
+      allOf:
+        - $ref: "#/components/schemas/ValidationErrorsBase"
       example:
         amount: "The field amount must be equal to or greater than 500"
 
@@ -259,13 +257,25 @@ components:
           type: datetime
           example: "2025-11-14T10:24:03.465"
 
-    ExpenseValidationErrors:
+    ValidationErrorsBase:
       type: object
-      description: Contains validation errors for invalid fields.
+      description: Base validation error schema.
       additionalProperties:
         type: string
+
+    ExpenseValidationErrors:
+      allOf:
+        - $ref: "#/components/schemas/ValidationErrorsBase"
       example:
-        amount: "The amount field must be equal to or greater than 1"
-        name: "The name field must not be null, empty, or contain only whitespace"
-        category: "The category field must not be null, empty, or contain only whitespace"
+        amount: "The amount field must be >= 1"
+        name: "The name field must not be empty"
+        category: "The category field must not be empty"
         createdAt: "The createdAt field is required"
+
+    ExpenseValidationUpdateErrors:
+      allOf:
+        - $ref: "#/components/schemas/ValidationErrorsBase"
+      example:
+        amount: "The amount field must be >= 1"
+        name: "The name field must not be empty"
+        category: "The category field must not be empty"
