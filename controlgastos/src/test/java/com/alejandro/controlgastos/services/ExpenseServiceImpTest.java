@@ -21,6 +21,7 @@ import com.alejandro.controlgastos.entities.Expense;
 import com.alejandro.controlgastos.repositories.ExpenseRepository;
 import com.alejandro.controlgastos.data.CustomCondition;
 import com.alejandro.controlgastos.data.ExpenseData;
+import com.alejandro.controlgastos.dtos.ExpenseUpdateDTO;
 
 @ExtendWith(MockitoExtension.class)
 class ExpenseServiceImpTest {
@@ -80,7 +81,7 @@ class ExpenseServiceImpTest {
 
         // Given
         String idToUpdate = "0000001";
-        Expense expenseToUpdate = new Expense(idToUpdate, "HBO Max", 500, "Suscripciones", LocalDateTime.now());
+        ExpenseUpdateDTO expenseToUpdate = new ExpenseUpdateDTO("HBO Max", 500, "Suscripciones");
         when(repository.findById(anyString())).thenReturn(Optional.of(ExpenseData.createExpense001()));
         when(repository.save(any(Expense.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -103,7 +104,7 @@ class ExpenseServiceImpTest {
     void updateUnexistingIdTest() {
 
         String idToUpdate = "0000006";
-        Expense expenseToUpdate = new Expense(null, "HBO Max", 500, "Suscripciones", LocalDateTime.now());
+        ExpenseUpdateDTO expenseToUpdate = new ExpenseUpdateDTO("HBO Max", 500, "Suscripciones");
         when(repository.findById(anyString())).thenReturn(Optional.empty());
 
         // When

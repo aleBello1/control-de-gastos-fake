@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.alejandro.controlgastos.dtos.ExpenseUpdateDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -125,13 +126,14 @@ class ExpenseControllerTest {
     
         // Given
         String idToUpdate = "0000002";
-        Expense expenseToUpdate = new Expense(null, "veterinario", 250, "Salud", LocalDateTime.of(2025, 4, 28, 18, 15));
-        when(service.update(anyString(), any(Expense.class))).thenAnswer(invocation -> Optional.of(invocation.getArgument(1)));
+        ExpenseUpdateDTO exponseUpdate = new ExpenseUpdateDTO("veterinario", 250, "Salud");
+        Expense exponseResponse = new Expense(null, "veterinario", 250, "Salud", LocalDateTime.of(2025, 4, 28, 18, 15));
+        when(service.update(anyString(), any(ExpenseUpdateDTO.class))).thenReturn(Optional.of(exponseResponse));
 
         // When
         MvcResult result = mockMvc.perform(put("/api/expenses/" + idToUpdate)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(expenseToUpdate)))
+            .content(objectMapper.writeValueAsString(exponseUpdate)))
 
         // then
             .andExpect(status().isCreated())
@@ -151,7 +153,7 @@ class ExpenseControllerTest {
         assertEquals("Salud", newExpense.getCategory());
         assertEquals(LocalDateTime.of(2025, 4, 28, 18, 15), newExpense.getCreatedAt());
 
-        verify(service).update(argThat(new CustomCondition(ExpenseData.idsValid, true)), any(Expense.class));
+        verify(service).update(argThat(new CustomCondition(ExpenseData.idsValid, true)), any(ExpenseUpdateDTO.class));
     }
 
     // To test the endpoint update when we use an inexisting id 
@@ -160,20 +162,20 @@ class ExpenseControllerTest {
     
         // Given
         String idToUpdate = "0000008";
-        Expense expenseToUpdate = new Expense(null, "veterinario", 250, "Salud", LocalDateTime.of(2025, 4, 28, 18, 15));
-        when(service.update(anyString(), any(Expense.class))).thenReturn(Optional.empty());
+        ExpenseUpdateDTO exponseUpdate = new ExpenseUpdateDTO("veterinario", 250, "Salud");
+        when(service.update(anyString(), any(ExpenseUpdateDTO.class))).thenReturn(Optional.empty());
 
         // When
         mockMvc.perform(put("/api/expenses/" + idToUpdate)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(expenseToUpdate)))
+            .content(objectMapper.writeValueAsString(exponseUpdate)))
 
         // then
             .andExpect(status().isNotFound())
             .andExpect(content().string(""))
             ;
 
-        verify(service).update(argThat(new CustomCondition(ExpenseData.idsValid, false)), any(Expense.class));
+        verify(service).update(argThat(new CustomCondition(ExpenseData.idsValid, false)), any(ExpenseUpdateDTO.class));
     }
 
     // To test the endpoint delete when we use an existing id 
