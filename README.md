@@ -14,6 +14,7 @@ Control de Gastos es un backend construido con **Spring Boot** y **MongoDB**, di
 - **JUnit**: Framework de pruebas unitarias utilizado para verificar el correcto funcionamiento de los métodos.
 - **Mockito**: Framework de mocking usado para simular dependencias y facilitar las pruebas unitarias en aislamiento.
 - **Swagger / OpenAPI**: Herramienta para documentar y probar los endpoints de la API de forma interactiva.
+- **Docker**: permite ejecutar esta aplicación en un entorno aislado, sin necesidad de configurar manualmente dependencias o versiones. 
 
 ## Características
 
@@ -54,6 +55,16 @@ Se emplean las siguientes validaciones:
 
 - Cada vez que se actualiza la información de algún gasto, se actualizará automáticamente el campo `updateAt` de ese mismo registro.
 
+### Docker
+
+Este proyecto utiliza Docker para crear un entorno de ejecución aislado y reproducible, asegurando que la aplicación funcione igual en cualquier sistema. 
+
+Archivos relevantes:
+
+- `Dockerfile`: define la imagen base y cómo se construye el entorno del proyecto.
+- `docker-compose.yml`: orquesta los servicios (API y base de datos) para facilitar la ejecución local.
+- `.env`: contiene variables de entorno usadas por Docker (no se incluye en el repositorio por seguridad).
+
 ## Estructura del Proyecto
 
 ### Código fuente de la aplicación
@@ -87,81 +98,96 @@ Puedes ver una demo del proyecto en el siguiente enlace: [Control de Gastos](htt
 
 # Expense Tracker (Backend)
 
-**Expense Tracker** is a backend built with **Spring Boot** and **MongoDB**, designed to manage a budget and multiple expenses made by the user. This project provides a RESTful API that allows for creating, reading, updating, and deleting expenses, as well as performing these same actions for a single budget.
+Expense Tracker is a backend built with **Spring Boot** and **MongoDB**, designed to manage a budget and multiple expenses made by the user. This project provides a RESTful API that allows creating, reading, updating, and deleting expenses, as well as performing the same actions for a single budget.
 
 ## Technologies Used
 
 - **Spring Boot**: Framework for building Java applications. This project uses version `3.4.0`.
-  - **Jakarta Validation**: For input data validation.
-  - **Lifecycle Events**: A class extends `AbstractMongoEventListener` to handle actions before or after performing CRUD operations on `Expense` objects.
-- **Java**: Main programming language. This project specifically uses `JDK 17`.
-- **Maven**: For dependency management and project build.
-- **MongoDB**: NoSQL database to store activities.
-- **Postman**: To simulate a client making requests to the server and to test the endpoints.
+  - **Jakarta Validation**: For validating input data.
+  - **Lifecycle Events**: A class extending `AbstractMongoEventListener` is created, allowing actions to be executed before or after CRUD operations on `Expense` objects.
+- **Java**: Main programming language. This project uses `JDK 17`.
+- **Maven**: For dependency management and building the project.
+- **MongoDB**: NoSQL database used to store activities.
+- **Postman**: Used to simulate a client making requests to the server and to test API endpoints.
 - **JUnit**: Unit testing framework used to verify the correct functionality of methods.
 - **Mockito**: Mocking framework used to simulate dependencies and facilitate isolated unit testing.
+- **Swagger / OpenAPI**: Tool to document and interactively test API endpoints.
+- **Docker**: Allows the application to run in an isolated environment without manually configuring dependencies or versions.
 
 ## Features
 
 ### Endpoints
 
 Organized routes to interact with the user's expenses and budget. Supported operations:
-
 - **Budget**:
-  - Retrieve the budget.
+  - Get the budget.
   - Save the budget.
   - Delete the budget.
-  
-- **Expenses**:
+- **Expenses**
   - List all expenses.
   - Get a specific expense by its ID.
-  - Create new expenses. This requires entering the name, amount, category, and date of the expense.
+  - Create new expenses by providing the name, amount, category, and date.
   - Update existing expenses.
   - Delete individual expenses.
   - Delete all expenses.
 
-### Database Management
+### Database Manager
 
 - Integration with MongoDB for data manipulation.
-- The NoSQL database contains two collections: one for managing the budget information and another for managing the expense information.
+- The NoSQL database contains two collections: one manages budget information, the other manages expense information.
 
 ### Validations
 
-The following validations are applied:
-
-- The **name** and **category** attributes of the expenses cannot be empty or consist only of whitespace.
-- The **amount** attribute of an expense must be greater than zero.
-- The **amount** attribute of the budget must be at least 500 (arbitrary value).
-- The **creation date** of the budget must not be a future date.
+The following validations are used:
+- The **name** and **category** fields of expenses cannot be empty or contain only whitespace.
+- The **amount** field of an expense cannot be less than or equal to zero.
+- The **budget amount** cannot be less than 500 (arbitrary value).
+- The **creation date** of the budget cannot be a future date.
 
 ### Design Patterns
 
-- The architectural design pattern **MVC** is used to separate the project code into different layers.
+- The **MVC** architectural design pattern is used to separate the project’s code into different layers.
+- The project uses **DTOs** to separate the data exposed in requests and responses from the domain model, improving organization and control of the exchanged information.
 
 ### Lifecycle Events for Entity Classes
 
-- Whenever an expense is updated, its `updatedAt` field is automatically updated as well.
+- Every time an expense is updated, the `updatedAt` field of that document is automatically updated.
+
+### Docker
+
+This project uses Docker to create an isolated and reproducible runtime environment, ensuring that the application behaves the same on any system.
+
+Relevant files:
+
+- `Dockerfile`: Defines the base image and how to build the project environment.
+- `docker-compose.yml`: Orchestrates the services (API and database) to simplify local execution.
+- `.env`: Contains environment variables used by Docker (not included in the repository for security reasons).
 
 ## Project Structure
 
 ### Application Source Code
 
-- `controllers/`: Contains the classes that handle HTTP requests and define the API endpoints.
-- `services/`: Contains the classes that implement the business logic.
-- `repositories/`: Contains the interfaces that extend a base interface for data handling.
-- `entities/`: Contains the classes that are mapped to their respective collections in the database.
-- `events/`: Contains the classes that handle actions before or after performing any CRUD operation.
+- `controllers/`: Contains classes that handle HTTP requests and define API endpoints.
+- `services/`: Contains classes that implement business logic.
+- `repositories/`: Contains interfaces extending data management functionality.
+- `entities/`: Contains classes mapped to their respective database collections.
+- `events/`: Contains classes handling actions before or after CRUD operations.
 
 ### Test Code
 
-- `controllers/`: Contains test classes that validate the behavior of the controller methods.
-- `services/`: Includes test classes dedicated to verifying the correct functionality of the service methods.
-- `data/`: Stores classes with mock data used during test execution.
-- `integrations/`: Contains test classes that validate the complete behavior of the controllers (integration tests).
-- `resources/`: Stores data in JSON format used as inputs for integration tests.
+- `controllers/`: Contains test classes that validate the behavior of controller methods.
+- `services/`: Contains test classes that verify correct functionality within service methods.
+- `data/`: Stores mock data classes used during tests.
+- `integrations/`: Contains integration tests validating full controller behavior.
+- `resources/`: Stores JSON data used as input for integration tests.
 
 ## Demo
 
 You can view a demo of the project at the following link: [Expense Tracker](https://serene-frangollo-9ddb20.netlify.app/).
 
-**Note:** The project demo is for demonstration purposes only. It is not connected to the backend.
+**Note:** This demo is only for demonstration purposes. It is not connected to the backend.
+
+## Future Improvements
+
+- Deploy the application on AWS  
+- Automated deployment using Jenkins
