@@ -9,9 +9,6 @@ info:
     email: alejandro.magb@gmail.com
     url: https://github.com/aledelorbe
 
-servers:
-  - url: http://localhost:7000
-
 tags:
   - name: Budgets
     description: Endpoints related to budget management.
