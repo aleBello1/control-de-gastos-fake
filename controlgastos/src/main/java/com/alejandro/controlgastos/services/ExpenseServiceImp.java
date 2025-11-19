@@ -3,6 +3,7 @@ package com.alejandro.controlgastos.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.alejandro.controlgastos.dtos.ExpenseUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class ExpenseServiceImp implements ExpenseService {
     // To update a specific expense based on its id
     @Override
     @Transactional
-    public Optional<Expense> update(String id, Expense expense) {
+    public Optional<Expense> update(String id, ExpenseUpdateDTO expense) {
         // Search for a specific expense
         Optional<Expense> optionalExpense = repository.findById(id);
 

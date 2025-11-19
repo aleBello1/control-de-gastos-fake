@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.alejandro.controlgastos.dtos.ExpenseUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class ExpenseController {
 
     // To create an endpoint that allows update all attribute values a specific expense based its id.
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateExpense(@Valid @RequestBody Expense expense, BindingResult result, @PathVariable String id) {
+    public ResponseEntity<?> updateExpense(@Valid @RequestBody ExpenseUpdateDTO expense, BindingResult result, @PathVariable String id) {
         // To handle the obligations of object attributes
         if( result.hasFieldErrors() ){
             return validation(result);

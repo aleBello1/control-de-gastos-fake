@@ -10,7 +10,7 @@ info:
     url: https://github.com/aledelorbe
 
 servers:
-  - url: http://localhost:8081
+  - url: http://localhost:7000
 
 tags:
   - name: Budgets
@@ -109,6 +109,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseValidationErrors'
+
+    delete:
+      tags:
+        - Expenses
+      summary: Delete all expenses
+      description: Delete all expenses of the records.
+      responses:
+        '200':
+          description: The budgets were deleted successfully
 
   /api/expenses/{id}:
     put:

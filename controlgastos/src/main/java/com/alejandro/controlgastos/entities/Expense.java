@@ -2,6 +2,7 @@ package com.alejandro.controlgastos.entities;
 
 import java.time.LocalDateTime;
 
+import com.alejandro.controlgastos.dtos.base.ExpenseBase;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,24 +12,15 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
+
 // In mongoDb the name of this collection is 'expenses' but in this project
 // the name of this class is 'Expense'
 @Document(collection = "expenses")
-public class Expense {
+public class Expense extends ExpenseBase {
 
     // Mapping of class attributes with collection fields in mongoDb
     @Id
     private String id;
-
-    @NotBlank(message = "{NotBlank.Expense.name}") // To obligate to this attribute not to empty or blank values.
-    private String name;
-
-    // To obligate this attribute to contain values ​​equal to or greater than one
-    @Min(value = 1, message = "{Min.Expense.amount}")
-    private int amount;
-
-    @NotBlank(message = "{NotBlank.Expense.category}") // To obligate to this attribute not to empty or blank values.
-    private String category;
 
     @Field("created_at") // To specific the name of this attribute in the db.
     @PastOrPresent(message = "{PastOrPresent.Expense.createdAt}") // To obligate the date to be before today or today
@@ -56,30 +48,6 @@ public class Expense {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public LocalDateTime getCreatedAt() {
