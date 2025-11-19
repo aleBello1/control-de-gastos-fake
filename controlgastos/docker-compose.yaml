@@ -5,7 +5,7 @@ services:
       - "7000:7000"
     networks:
       - expense-network
-    image: expense-image:v3
+    image: expense-image
     build:
       context: ./
       dockerfile: ./Dockerfile
