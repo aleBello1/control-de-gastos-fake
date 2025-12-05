@@ -91,76 +91,86 @@ Puedes ver una demo del proyecto en el siguiente enlace: [Control de Gastos](htt
 
 ## Futuras mejoras
 
-- Despliegue de la aplicacion en AWS
-- Despligue automatico usando jenkins
+- Desarrollar el servicio de catalogos de categoria de gastos.
+- Desarrollar las pruebas para este servicio.
+- Incorporar este servicio al swagger.
+- Quizas meterle redis y el patron de diseño `Cache-aside pattern` para que se quede en cache el catalogo.
+- Actualizar el readme.
+- Despliegue de la aplicacion en AWS.
+- Despligue automatico usando jenkins.
 
 ---
 
 # Expense Tracker (Backend)
 
-Expense Tracker is a backend built with **Spring Boot** and **MongoDB**, designed to manage a budget and multiple expenses made by the user. This project provides a RESTful API that allows creating, reading, updating, and deleting expenses, as well as performing the same actions for a single budget.
+**Expense Tracker** is a backend built with **Spring Boot** and **MongoDB**, designed to manage a budget and multiple user expenses. This project provides a RESTful API that allows creating, reading, updating, and deleting expenses, as well as performing these same actions for a single budget.
 
 ## Technologies Used
 
-- **Spring Boot**: Framework for building Java applications. This project uses version `3.4.0`.
-  - **Jakarta Validation**: For validating input data.
-  - **Lifecycle Events**: A class extending `AbstractMongoEventListener` is created, allowing actions to be executed before or after CRUD operations on `Expense` objects.
+- **Spring Boot**: Framework for building Java applications. This project specifically uses version `3.4.0`.
+  - **Jakarta Validation**: For input data validation.
+  - **Lifecycle Events**: A class extending `AbstractMongoEventListener` is implemented to handle actions before or after any CRUD operation performed on `Expense` objects.
 - **Java**: Main programming language. This project uses `JDK 17`.
-- **Maven**: For dependency management and building the project.
-- **MongoDB**: NoSQL database used to store activities.
-- **Postman**: Used to simulate a client making requests to the server and to test API endpoints.
-- **JUnit**: Unit testing framework used to verify the correct functionality of methods.
-- **Mockito**: Mocking framework used to simulate dependencies and facilitate isolated unit testing.
-- **Swagger / OpenAPI**: Tool to document and interactively test API endpoints.
-- **Docker**: Allows the application to run in an isolated environment without manually configuring dependencies or versions.
+- **Maven**: Build and dependency management tool.
+- **MongoDB**: NoSQL database used to store the data.
+- **Postman**: Used to simulate API client requests and test endpoints.
+- **JUnit**: Unit testing framework to verify correct method behavior.
+- **Mockito**: Mocking framework to simulate dependencies and simplify isolated unit tests.
+- **Swagger / OpenAPI**: Tool for documenting and interactively testing API endpoints.
+- **Docker**: Allows running the application in an isolated environment without manually configuring dependencies or versions.
 
 ## Features
 
 ### Endpoints
 
-Organized routes to interact with the user's expenses and budget. Supported operations:
-- **Budget**:
-  - Get the budget.
+Organized routes to interact with user expenses and budget. Supported operations:
+
+- **Budget**
+  - Retrieve the budget.
   - Save the budget.
   - Delete the budget.
+  
 - **Expenses**
   - List all expenses.
-  - Get a specific expense by its ID.
-  - Create new expenses by providing the name, amount, category, and date.
+  - Retrieve a specific expense by ID.
+  - Create new expenses (requires name, amount, category, and date).
   - Update existing expenses.
   - Delete individual expenses.
   - Delete all expenses.
 
-### Database Manager
+### Database Handling
 
 - Integration with MongoDB for data manipulation.
-- The NoSQL database contains two collections: one manages budget information, the other manages expense information.
+- The NoSQL database uses two collections:
+  - One for budget information.
+  - One for expense information.
 
 ### Validations
 
-The following validations are used:
-- The **name** and **category** fields of expenses cannot be empty or contain only whitespace.
-- The **amount** field of an expense cannot be less than or equal to zero.
-- The **budget amount** cannot be less than 500 (arbitrary value).
-- The **creation date** of the budget cannot be a future date.
+The following validations are applied:
+
+- Expense **name** and **category** cannot be empty or contain only whitespace.
+- Expense **amount** cannot be less than or equal to zero.
+- Budget **amount** cannot be less than 500 (arbitrary business rule).
+- Budget **creation date** cannot be a future date.
 
 ### Design Patterns
 
-- The **MVC** architectural design pattern is used to separate the project’s code into different layers.
-- The project uses **DTOs** to separate the data exposed in requests and responses from the domain model, improving organization and control of the exchanged information.
+- Architectural pattern **MVC** to separate application logic into layers.
+- Use of **DTOs** to separate request/response data from domain models, improving structure and data control.
 
-### Lifecycle Events for Entity Classes
+### Entity Lifecycle Events
 
-- Every time an expense is updated, the `updatedAt` field of that document is automatically updated.
+- Every time an expense is updated, its `updatedAt` field is automatically refreshed.
 
 ### Docker
 
-This project uses Docker to create an isolated and reproducible runtime environment, ensuring that the application behaves the same on any system.
+This project uses Docker to create a reproducible, isolated runtime environment, ensuring consistent behavior across systems.
 
 Relevant files:
 
-- `Dockerfile`: Defines the base image and how to build the project environment.
-- `docker-compose.yml`: Orchestrates the services (API and database) to simplify local execution.
+- `Dockerfile`: Defines the base image and build instructions for the project environment.
+- `docker-compose.yml`: Orchestrates services (API and database) for easier local execution.
 - `.env`: Contains environment variables used by Docker (not included in the repository for security reasons).
 
 ## Project Structure
@@ -168,26 +178,32 @@ Relevant files:
 ### Application Source Code
 
 - `controllers/`: Contains classes that handle HTTP requests and define API endpoints.
-- `services/`: Contains classes that implement business logic.
-- `repositories/`: Contains interfaces extending data management functionality.
-- `entities/`: Contains classes mapped to their respective database collections.
-- `events/`: Contains classes handling actions before or after CRUD operations.
+- `services/`: Contains classes with business logic.
+- `repositories/`: Contains interfaces extending Spring Data components for data handling.
+- `entities/`: Contains classes mapped to their respective MongoDB collections.
+- `events/`: Contains classes that handle pre- and post-CRUD logic.
 
 ### Test Code
 
-- `controllers/`: Contains test classes that validate the behavior of controller methods.
-- `services/`: Contains test classes that verify correct functionality within service methods.
-- `data/`: Stores mock data classes used during tests.
+- `controllers/`: Contains tests validating controller behavior.
+- `services/`: Includes tests for service-layer logic.
+- `data/`: Contains mock data classes used during testing.
 - `integrations/`: Contains integration tests validating full controller behavior.
-- `resources/`: Stores JSON data used as input for integration tests.
+- `resources/`: Stores JSON files used as test input for integration tests.
 
 ## Demo
 
-You can view a demo of the project at the following link: [Expense Tracker](https://serene-frangollo-9ddb20.netlify.app/).
+You can view a live demo of the project here:  
+**[Expense Tracker Demo](https://serene-frangollo-9ddb20.netlify.app/)**
 
-**Note:** This demo is only for demonstration purposes. It is not connected to the backend.
+**Note:** The demo is for display purposes only. It is **not** connected to the backend.
 
 ## Future Improvements
 
-- Deploy the application on AWS  
-- Automated deployment using Jenkins
+- Develop a category catalog service.
+- Add tests for this new service.
+- Add this service to Swagger documentation.
+- Possibly integrate Redis and implement the **Cache-aside pattern** to cache the catalog.
+- Update the README.
+- Deploy the application on AWS.
+- Implement automated deployment using Jenkins.
