@@ -94,6 +94,7 @@ Puedes ver una demo del proyecto en el siguiente enlace: [Control de Gastos](htt
 - Desarrollar el servicio de catalogos de categoria de gastos.
 - Desarrollar las pruebas para este servicio.
 - Incorporar este servicio al swagger.
+- Crear el perfil dev para conectarse con mongoDb atlas.
 - Quizas meterle redis y el patron de diseño `Cache-aside pattern` para que se quede en cache el catalogo.
 - Actualizar el readme.
 - Despliegue de la aplicacion en AWS.
@@ -203,6 +204,7 @@ You can view a live demo of the project here:
 - Develop a category catalog service.
 - Add tests for this new service.
 - Add this service to Swagger documentation.
+- Create the dev profile to connect to MongoDB Atlas.
 - Possibly integrate Redis and implement the **Cache-aside pattern** to cache the catalog.
 - Update the README.
 - Deploy the application on AWS.
