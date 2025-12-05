@@ -2,7 +2,7 @@ services:
   expense-tracker:
     container_name: expense-tracker
     ports:
-      - "7000:7000"
+      - "${LOCAL_DK_SERVER_PORT}:${LOCAL_DK_SERVER_PORT}"
     networks:
       - expense-network
     image: expense-image
@@ -14,9 +14,9 @@ services:
       - expense-tracker-db
 
   expense-tracker-db:
-    container_name: expense-tracker-db
+    container_name: ${LOCAL_DK_HOST_NAME}
     ports:
-      - "7001:27017"
+      - "${LOCAL_DK_DB_SERVER_PORT}:27017"
     networks:
       - expense-network
     image: mongodb/mongodb-community-server:7.0-ubi8
